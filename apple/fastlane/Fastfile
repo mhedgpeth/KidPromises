@@ -41,6 +41,56 @@ lane :create_app do
   create_app_online # produce
 end
 
+platform :ios do
+  before_all do
+    Dotenv.load ".env.ios"
+  end
+
+  desc "Test"
+  lane :test do
+    lint_formatting
+    run_tests
+  end
+
+  desc "Nuke certs"
+  lane :nuke_signing do
+    app_store_connect_api_key
+    match_nuke(type: "development")
+    match_nuke(type: "appstore")
+  end
+
+  desc "Sync development signing"
+  lane :dev_signing do
+    app_store_connect_api_key
+    sync_code_signing(
+      type: "development",
+      force_for_new_devices: true
+    )
+  end
+
+  desc "Sync signing"
+  lane :signing do
+    test
+    dev_signing
+
+    sync_code_signing(
+      type: "appstore"
+    ) # match
+  end
+
+  desc "Build binary"
+  lane :build do
+    signing
+    build_ios_app
+  end
+
+  desc "Release binary"
+  lane :release do
+    build
+    upload_to_app_store # deliver
+  end
+end
+
 platform :mac do
   before_all do
     Dotenv.load ".env.mac"
@@ -55,14 +105,27 @@ platform :mac do
   desc "Nuke certs"
   lane :nuke_signing do
     app_store_connect_api_key
-    match_nuke
+    match_nuke(type: "development")
+    match_nuke(type: "appstore")
+  end
+
+  desc "Sync development signing"
+  lane :dev_signing do
+    app_store_connect_api_key
+    sync_code_signing(
+      type: "development",
+      force_for_new_devices: true
+    )
   end
 
   desc "Sync signing"
   lane :signing do
     test
-    app_store_connect_api_key
-    sync_code_signing # match
+    dev_signing
+
+    sync_code_signing(
+      type: "appstore"
+    ) # match
   end
 
   desc "Build binary"

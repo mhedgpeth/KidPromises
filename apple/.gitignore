@@ -5,6 +5,4 @@ iOS/Info.plist
 Mac/Info.plist
 Mac/KidPromises.entitlements
 build
-fastlane/.env
-fastlane/.env.mac
 fastlane/.env.secret

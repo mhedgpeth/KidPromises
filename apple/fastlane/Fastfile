@@ -1,0 +1,79 @@
+# based on this video: https://www.youtube.com/watch?v=6Jz-Ywxki0U
+fastlane_require "dotenv"
+
+before_all do
+  Dotenv.load ".env.secret"
+end
+
+desc "Generate project files"
+lane :generate do
+    xcodegen(spec: "project.yml")
+end
+
+desc "Lint project"
+lane :lint do
+  swiftlint(
+    config_file: ".swiftlint.yml",
+    strict: true,
+    raise_if_swiftlint_error: true
+  )
+end
+
+desc "Reformat project"
+lane :reformat do
+  swiftformat(
+    lint: false
+  )
+end
+
+desc "Ensure project is formatted"
+lane :lint_formatting do
+  lint
+  swiftformat(
+    lint: true
+  )
+end
+
+desc "Create on Developer Portal and App Store Connect"
+desc "Note that this only works with a personal Apple ID in a local"
+desc "session and can't be a part of CI"
+lane :create_app do
+  create_app_online # produce
+end
+
+platform :mac do
+  before_all do
+    Dotenv.load ".env.mac"
+  end
+
+  desc "Test"
+  lane :test do
+    lint_formatting
+    run_tests
+  end
+
+  desc "Nuke certs"
+  lane :nuke_signing do
+    app_store_connect_api_key
+    match_nuke
+  end
+
+  desc "Sync signing"
+  lane :signing do
+    test
+    app_store_connect_api_key
+    sync_code_signing # match
+  end
+
+  desc "Build binary"
+  lane :build do
+    signing
+    build_mac_app
+  end
+
+  desc "Release binary"
+  lane :release do
+    build
+    upload_to_app_store # deliver
+  end
+end

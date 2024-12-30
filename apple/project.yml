@@ -1,0 +1,115 @@
+name: KidPromises
+options:
+  bundleIdPrefix: com.hedge-ops
+targetTemplates:
+  common:
+    settings:
+      base:
+        CODE_SIGN_STYLE: Manual
+        DEVELOPMENT_TEAM: 284XDSGR3X
+        DEAD_CODE_STRIPPING: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.hedge-ops.kidpromises
+        PROVISIONING_PROFILE_SPECIFIER: "" # automatic
+        SWIFT_VERSION: 5.9
+  application:
+    templates: [common]
+    type: application
+    scheme:
+      gatherCoverageData: true
+      buildImplicitDependencies: true
+      management:
+        shared: true
+  ui-test:
+    templates: [common]
+    type: bundle.ui-testing
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+
+  unit-test:
+    templates: [common]
+    type: bundle.unit-test
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+
+  ios:
+    platform: iOS
+    deploymentTarget: "18.2"
+
+  mac:
+    platform: macOS
+    deploymentTarget: "15.1"
+
+targets:
+  "KidPromises-macOS":
+    templates: [application, mac]
+    sources: [Shared, Mac]
+    settings:
+      base:
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        ENABLE_HARDENED_RUNTIME: YES
+    info:
+      path: Mac/Info.plist
+      properties:
+        LSMinimumSystemVersion: "15.1"
+        LSApplicationCategoryType: "public.app-category.business"
+        NSSupportsAutomaticGraphicsSwitching: true
+    entitlements:
+      path: Mac/KidPromises.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
+        com.apple.security.device.gpu: true
+        com.apple.security.hardened-runtime: true
+    dependencies:
+      - sdk: Metal.framework
+      - sdk: MetalKit.framework
+    scheme:
+      testTargets:
+        - KidPromises-macOS-Tests
+        - KidPromises-macOS-UITests
+
+  "KidPromises-macOS-Tests":
+    templates: [unit-test, mac]
+    sources: [MacTests]
+    dependencies:
+      - target: KidPromises-macOS
+
+  "KidPromises-macOS-UITests":
+    templates: [ui-test, mac]
+    sources: [MacUITests]
+    dependencies:
+      - target: KidPromises-macOS
+    settings:
+      TEST_TARGET_NAME: KidPromises-macOS
+
+  "KidPromises-iOS":
+    templates: [application, ios]
+    sources: [Shared, iOS]
+    info:
+      path: iOS/Info.plist
+      properties:
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UILaunchScreen: {}
+    scheme:
+      testTargets:
+        - KidPromises-iOS-Tests
+        - KidPromises-iOS-UITests
+
+  "KidPromises-iOS-Tests":
+    templates: [unit-test, ios]
+    sources: [iOSTests]
+    dependencies:
+      - target: KidPromises-iOS
+
+  "KidPromises-iOS-UITests":
+    templates: [ui-test, ios]
+    sources: [iOSUITests]
+    dependencies:
+      - target: KidPromises-iOS
+    settings:
+      TEST_TARGET_NAME: KidPromises-iOS

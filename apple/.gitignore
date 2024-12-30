@@ -1,0 +1,10 @@
+KidPromises.xcodeproj/**
+fastlane/report.xml
+fastlane/test_output
+iOS/Info.plist
+Mac/Info.plist
+Mac/KidPromises.entitlements
+build
+fastlane/.env
+fastlane/.env.mac
+fastlane/.env.secret

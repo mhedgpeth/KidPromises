@@ -18,7 +18,7 @@ final class SampleUITest: XCTestCase {
 
         // On iOS, we don't need to check for windows explicitly like in macOS
         // Instead, we can directly look for UI elements on the screen
-        let welcomeText = app.staticTexts["Hello, People Work!"]
+        let welcomeText = app.staticTexts["Hello, Kid Promises!"]
 
         // Give a small amount of time for the UI to settle
         // This is typically needed for iOS animations and view controller transitions

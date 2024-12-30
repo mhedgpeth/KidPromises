@@ -60,6 +60,59 @@ session and can't be a part of CI
 ----
 
 
+## iOS
+
+### ios test
+
+```sh
+[bundle exec] fastlane ios test
+```
+
+Test
+
+### ios nuke_signing
+
+```sh
+[bundle exec] fastlane ios nuke_signing
+```
+
+Nuke certs
+
+### ios dev_signing
+
+```sh
+[bundle exec] fastlane ios dev_signing
+```
+
+Sync development signing
+
+### ios signing
+
+```sh
+[bundle exec] fastlane ios signing
+```
+
+Sync signing
+
+### ios build
+
+```sh
+[bundle exec] fastlane ios build
+```
+
+Build binary
+
+### ios release
+
+```sh
+[bundle exec] fastlane ios release
+```
+
+Release binary
+
+----
+
+
 ## Mac
 
 ### mac test
@@ -77,6 +130,14 @@ Test
 ```
 
 Nuke certs
+
+### mac dev_signing
+
+```sh
+[bundle exec] fastlane mac dev_signing
+```
+
+Sync development signing
 
 ### mac signing
 

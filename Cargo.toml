@@ -1,0 +1,16 @@
+[workspace]
+members = ["shared", "shared_types"]
+resolver = "1"
+
+[workspace.package]
+authors = ["Michael Hedgpeth"]
+edition = "2021"
+repository = "https://github.com/mhedgpeht/KidPromises/"
+license = "Apache-2.0"
+keywords = ["crux", "crux_core", "cross-platform-ui", "ffi", "wasm"]
+rust-version = "1.66"
+
+[workspace.dependencies]
+anyhow = "1.0.86"
+crux_core = "0.10.0"
+serde = "1.0.203"

@@ -9,7 +9,6 @@ targetTemplates:
         DEVELOPMENT_TEAM: 284XDSGR3X
         DEAD_CODE_STRIPPING: YES
         PRODUCT_BUNDLE_IDENTIFIER: com.hedge-ops.kidpromises
-        PROVISIONING_PROFILE_SPECIFIER: "" # automatic
         SWIFT_VERSION: 5.9
   application:
     templates: [common]
@@ -44,11 +43,12 @@ targetTemplates:
 targets:
   "KidPromises-macOS":
     templates: [application, mac]
-    sources: [Shared, Mac]
+    sources: [Common, Mac]
     settings:
       base:
         ENABLE_USER_SCRIPT_SANDBOXING: YES
         ENABLE_HARDENED_RUNTIME: YES
+        PROVISIONING_PROFILE_SPECIFIER: "" # automatic
     info:
       path: Mac/Info.plist
       properties:
@@ -86,7 +86,7 @@ targets:
 
   "KidPromises-iOS":
     templates: [application, ios]
-    sources: [Shared, iOS]
+    sources: [Common, iOS]
     info:
       path: iOS/Info.plist
       properties:
@@ -99,7 +99,13 @@ targets:
       testTargets:
         - KidPromises-iOS-Tests
         - KidPromises-iOS-UITests
-
+    settings:
+      base:
+        PROVISIONING_PROFILE_SPECIFIER: "match Development com.hedge-ops.kidpromises"
+        CODE_SIGN_IDENTITY: "iPhone Developer"
+      Release:
+        PROVISIONING_PROFILE_SPECIFIER: "match AppStore com.hedge-ops.kidpromises"
+        CODE_SIGN_IDENTITY: "iPhone Distribution"
   "KidPromises-iOS-Tests":
     templates: [unit-test, ios]
     sources: [iOSTests]

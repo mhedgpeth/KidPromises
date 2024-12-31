@@ -1,1 +1,2 @@
 --commas inline
+--exclude shared.xcframework/**/*

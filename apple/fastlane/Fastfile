@@ -46,12 +46,6 @@ platform :ios do
     Dotenv.load ".env.ios"
   end
 
-  desc "Test"
-  lane :test do
-    lint_formatting
-    run_tests
-  end
-
   desc "Nuke certs"
   lane :nuke_signing do
     app_store_connect_api_key
@@ -70,7 +64,7 @@ platform :ios do
 
   desc "Sync signing"
   lane :signing do
-    test
+    lint_formatting
     dev_signing
 
     sync_code_signing(
@@ -78,9 +72,15 @@ platform :ios do
     ) # match
   end
 
+  desc "Test"
+  lane :test do
+    signing
+    run_tests
+  end
+
   desc "Build binary"
   lane :build do
-    signing
+    test
     build_ios_app
   end
 
@@ -96,12 +96,6 @@ platform :mac do
     Dotenv.load ".env.mac"
   end
 
-  desc "Test"
-  lane :test do
-    lint_formatting
-    run_tests
-  end
-
   desc "Nuke certs"
   lane :nuke_signing do
     app_store_connect_api_key
@@ -120,7 +114,7 @@ platform :mac do
 
   desc "Sync signing"
   lane :signing do
-    test
+    lint_formatting
     dev_signing
 
     sync_code_signing(
@@ -128,10 +122,16 @@ platform :mac do
     ) # match
   end
 
+  desc "Test"
+  lane :test do
+    signing
+    run_tests
+  end
+
   desc "Build binary"
   lane :build do
-    signing
-    build_mac_app
+    test
+    build_ios_app
   end
 
   desc "Release binary"

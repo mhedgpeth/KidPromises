@@ -62,14 +62,6 @@ session and can't be a part of CI
 
 ## iOS
 
-### ios test
-
-```sh
-[bundle exec] fastlane ios test
-```
-
-Test
-
 ### ios nuke_signing
 
 ```sh
@@ -94,6 +86,14 @@ Sync development signing
 
 Sync signing
 
+### ios test
+
+```sh
+[bundle exec] fastlane ios test
+```
+
+Test
+
 ### ios build
 
 ```sh
@@ -114,14 +114,6 @@ Release binary
 
 
 ## Mac
-
-### mac test
-
-```sh
-[bundle exec] fastlane mac test
-```
-
-Test
 
 ### mac nuke_signing
 
@@ -146,6 +138,14 @@ Sync development signing
 ```
 
 Sync signing
+
+### mac test
+
+```sh
+[bundle exec] fastlane mac test
+```
+
+Test
 
 ### mac build
 

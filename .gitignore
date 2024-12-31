@@ -64,3 +64,4 @@ fastlane/test_output
 **/.DS_STORE
 
 target
+/.bin/rust-1.83.0/cargo-xcode/=1.7.0/bin/cargo-xcode

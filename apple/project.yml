@@ -44,7 +44,7 @@ targetTemplates:
 
   mac:
     platform: macOS
-    deploymentTarget: "15.1"
+    deploymentTarget: "15.2"
 
 targets:
   "KidPromises-macOS":
@@ -63,7 +63,7 @@ targets:
     info:
       path: Mac/Info.plist
       properties:
-        LSMinimumSystemVersion: "15.1"
+        LSMinimumSystemVersion: "15.2"
         LSApplicationCategoryType: "public.app-category.business"
         NSSupportsAutomaticGraphicsSwitching: true
     entitlements:
@@ -76,6 +76,9 @@ targets:
     dependencies:
       - sdk: Metal.framework
       - sdk: MetalKit.framework
+      - target: Shared/uniffi-bindgen-bin
+      - target: Shared/shared-staticlib
+      - package: SharedTypes
     scheme:
       testTargets:
         - KidPromises-macOS-Tests
@@ -123,6 +126,10 @@ targets:
   "KidPromises-iOS":
     templates: [application, ios]
     sources: [Common, iOS]
+    dependencies:
+      - target: Shared/uniffi-bindgen-bin
+      - target: Shared/shared-staticlib
+      - package: SharedTypes
     info:
       path: iOS/Info.plist
       properties:
